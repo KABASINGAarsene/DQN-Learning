@@ -1,0 +1,24 @@
+[project]
+name = "dqn-learning"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "KABASINGAarsene", email = "a.kabasinga@alustudent.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "torch>=2.0.0",
+    "numpy>=1.24.0",
+    "gymnasium[atari]>=1.0.0",
+    "autorom[accept-rom-license]>=0.6.1",
+    "opencv-python-headless>=5.0.0.93",
+    "pygame>=2.6.1",
+]
+
+[project.scripts]
+dqn-learning = "dqn_learning:main"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
