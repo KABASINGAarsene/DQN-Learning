@@ -15,6 +15,7 @@ import torch.nn as nn
 import gymnasium as gym
 import ale_py                   # Registers ALE/Atari environments with Gymnasium
 from collections import deque
+import matplotlib.pyplot as plt # Added for rubric-required plots
 
 # Tell Gymnasium about all the ALE (Atari) environments, including Pong.
 # Without this line, gym.make('ALE/Pong-v5') raises a NamespaceNotFound error.
@@ -348,7 +349,6 @@ class ReplayBuffer:
         return len(self.buffer)
 
 
-
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 5 — EPSILON-GREEDY ACTION SELECTION
 #
@@ -549,6 +549,7 @@ def main():
 
     # ── Logging ───────────────────────────────────────────────────────────────
     episode_rewards = []    # Track total reward per episode to monitor progress
+    episode_lengths = []    # Track number of steps per episode
 
     print(f"Starting training for {NUM_EPISODES} episodes on {DEVICE}...")
     print(f"Actions available: {num_actions}")
@@ -598,6 +599,7 @@ def main():
 
         # ── End of episode ────────────────────────────────────────────────────
         episode_rewards.append(episode_reward)
+        episode_lengths.append(step_count)
 
         # Decay epsilon: multiply by EPSILON_DECAY, but never go below EPSILON_END.
         # This gradually shifts the agent from exploration → exploitation.
@@ -625,8 +627,33 @@ def main():
     print("-" * 50)
     print(f"Training complete! Model saved to '{SAVE_PATH}'")
 
-    env.close()
+    # ── Generate and Save Training Plots ──────────────────────────────────────
+    print("Generating training plots...")
+    plot_path = SAVE_PATH.replace('.pth', '.png')  # e.g., dqn_model_exp1.png
+    
+    plt.figure(figsize=(12, 5))
+    
+    # Left Graph: Rewards
+    plt.subplot(1, 2, 1)
+    plt.plot(episode_rewards, color="blue", alpha=0.7)
+    plt.title("Episode Rewards")
+    plt.xlabel("Episode")
+    plt.ylabel("Total Reward")
+    plt.grid(True, alpha=0.3)
+    
+    # Right Graph: Steps
+    plt.subplot(1, 2, 2)
+    plt.plot(episode_lengths, color="orange", alpha=0.7)
+    plt.title("Episode Lengths")
+    plt.xlabel("Episode")
+    plt.ylabel("Number of Steps")
+    plt.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig(plot_path)
+    print(f"Plots saved to '{plot_path}'")
 
+    env.close()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Entry point: only run main() when this file is executed directly,
@@ -634,4 +661,3 @@ def main():
 # ─────────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     main()
-
