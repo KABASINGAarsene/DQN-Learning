@@ -1,0 +1,14 @@
+### Hyperparameter Experiment Results
+
+| Experiment | Learning rate | Gamma | Batch size | Epsilon start | Epsilon end | Epsilon decay | Observed behaviour |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1 (Baseline)** | 0.0001 | 0.99 | 32 | 1.0 | 0.02 | 0.995 | **Baseline Failure:** Agent failed to learn within 500 episodes, flatlining at -21 to -20. The baseline parameters did not provide a fast enough transition from exploration to exploitation for this short time limit. |
+| **2** | **0.0005** | 0.99 | 32 | 1.0 | 0.02 | 0.995 | **Catastrophic Forgetting:** The high learning rate caused the neural network to make erratic, massive updates. The agent learned nothing, remaining stuck at -21 as the optimizer overshot optimal weights. |
+| **3** | **0.00005** | 0.99 | 32 | 1.0 | 0.02 | 0.995 | **Stable but Slow Learning:** The tiny learning rate provided extreme stability, allowing the agent to steadily climb to -8. However, it learned too slowly to reach positive scores before the 500-episode cutoff. |
+| **4** | 0.0001 | 0.99 | 32 | 1.0 | 0.02 | **0.999** | **Over-Exploration:** The slow decay meant the agent was still acting randomly ~60% of the time at episode 500. It could not string together the deliberate moves required to win Pong, scoring poorly. |
+| **5** | 0.0001 | 0.99 | 32 | 1.0 | 0.02 | **0.950** | **Best Performance:** Fast decay forced early exploitation. The agent stopped twitching randomly early on, allowing its network to sustain massive 4500-step volleys and hit peak positive scores above +10. |
+| **6** | 0.0001 | 0.99 | 32 | 1.0 | **0.10** | 0.995 | **Exploitation Cap:** By stopping decay at 10% randomness, the agent constantly sabotaged its own volleys. It showed moderate learning (-12) but the forced random twitches prevented long-term winning streaks. |
+| **7** | 0.0001 | **0.999** | 32 | 1.0 | 0.02 | 0.995 | **Deep Planning:** The extremely high gamma forced the agent to heavily value the final point of the volley. It learned steadily, reaching peaks of -7, proving long-term tracking is a stable strategy for Pong. |
+| **8** | 0.0001 | **0.90** | 32 | 1.0 | 0.02 | 0.995 | **Short-Sightedness:** The low gamma made the agent focus only on immediate survival (hitting the ball) rather than the final score. This surprisingly resulted in strong rallies (3500 steps) and a peak score of -7. |
+| **9** | 0.0001 | 0.99 | **64** | 1.0 | 0.02 | 0.995 | **Smoother Updates:** Doubling the batch size pulled more memories per step, reducing noise. The agent learned very steadily, climbing to -6 without the extreme crashes seen in other runs. |
+| **10** | 0.0001 | 0.99 | **16** | 1.0 | 0.02 | 0.995 | **Noisy Gradients:** The small batch size introduced too much variance into the network updates. The agent's learning was too erratic to form a strategy, causing it to flatline at the -21 baseline. |
