@@ -1,7 +1,7 @@
 # Deep Q-Network (DQN) - Atari Pong
 
 ## 1. Project Introduction
-* **Group Members:** [Kabasinga Arsene], [Carla Liza Batoni], [Tapiwanashe  Gift Marufu],
+* **Group Members:** Kabasinga Arsene, Carla Liza Batoni, Tapiwanashe  Gift Marufu,
 * **Selected Atari Environment:** `ALE/Pong-v5`
 
 This project implements a Deep Q-Network (DQN) agent from scratch using PyTorch and Gymnasium. The agent was trained to play Atari Pong by processing raw pixel inputs, breaking the correlation of sequential data through experience replay, and balancing exploration with exploitation to maximize cumulative expected rewards.
@@ -34,6 +34,7 @@ Our CNN architecture is designed to map raw pixel states to action values. It ta
                  ▼
 [Fully Connected Layer 2] 6 Output nodes (1 per action) -> Q-Values
 
+```
 ## Explanation of the Training Process
 
 Our training loop is built on several foundational Reinforcement Learning mechanisms to ensure stable and convergent learning:
@@ -52,4 +53,5 @@ Our training loop is built on several foundational Reinforcement Learning mechan
 
 
 Below In the demonstration, our trained agent controls the green paddle on the righti playing Pong after being trained with an optimized learning rate of `0.0001` and an aggressive epsilon decay of `0.950` to force early exploitation.
-[GAME PLAY VIDEO](https://youtu.be/o2ZNIaYt9uU).
+
+**GAME PLAY VIDEO:** https://youtu.be/o2ZNIaYt9uU.
