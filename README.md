@@ -50,5 +50,6 @@ Our training loop is built on several foundational Reinforcement Learning mechan
 
 ## 3. Gameplay Demonstration
 
+
 Below In the demonstration, our trained agent controls the green paddle on the righti playing Pong after being trained with an optimized learning rate of `0.0001` and an aggressive epsilon decay of `0.950` to force early exploitation.
-[GAME PLAY VIDEO](https://youtu.be/o2ZNIaYt9uU)
+[GAME PLAY VIDEO](https://youtu.be/o2ZNIaYt9uU).
