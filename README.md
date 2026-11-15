@@ -1,7 +1,7 @@
 # Deep Q-Network (DQN) - Atari Pong
 
 ## 1. Project Introduction
-* **Group Members:** Kabasinga Arsene, Carla Liza Batoni, Tapiwanashe  Gift Marufu,
+* **Group Members:** Kabasinga Arsene, Carla Lisa Batoni, Tapiwanashe  Gift Marufu,
 * **Selected Atari Environment:** `ALE/Pong-v5`
 
 This project implements a Deep Q-Network (DQN) agent from scratch using PyTorch and Gymnasium. The agent was trained to play Atari Pong by processing raw pixel inputs, breaking the correlation of sequential data through experience replay, and balancing exploration with exploitation to maximize cumulative expected rewards.
