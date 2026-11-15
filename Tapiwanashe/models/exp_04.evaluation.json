@@ -1,0 +1,40 @@
+{
+  "seeds": [
+    10000,
+    10001,
+    10002,
+    10003,
+    10004,
+    10005,
+    10006,
+    10007,
+    10008,
+    10009
+  ],
+  "rewards": [
+    -17.0,
+    -16.0,
+    -17.0,
+    -17.0,
+    -12.0,
+    -15.0,
+    -13.0,
+    -9.0,
+    -16.0,
+    -13.0
+  ],
+  "mean_reward": -14.5,
+  "std_reward": 2.539685019840059,
+  "action_percentages": {
+    "NOOP": 19.02,
+    "FIRE": 15.63,
+    "RIGHT": 18.29,
+    "LEFT": 17.87,
+    "RIGHTFIRE": 14.61,
+    "LEFTFIRE": 14.58
+  },
+  "model_sha256": "6b6ab775b69af1d2f364a3227f2e5e684ea20fadf186ba5d1ac215c965438c36",
+  "training_steps": 560494,
+  "training_method": "original",
+  "training_episodes": 500
+}
