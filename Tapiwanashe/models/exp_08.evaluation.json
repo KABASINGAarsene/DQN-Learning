@@ -1,0 +1,63 @@
+{
+  "seeds": [
+    10000,
+    10001,
+    10002,
+    10003,
+    10004,
+    10005,
+    10006,
+    10007,
+    10008,
+    10009
+  ],
+  "rewards": [
+    -21.0,
+    -21.0,
+    -21.0,
+    -21.0,
+    -21.0,
+    -21.0,
+    -21.0,
+    -21.0,
+    -21.0,
+    -21.0
+  ],
+  "mean_reward": -21.0,
+  "std_reward": 0.0,
+  "wins": 0,
+  "model_sha256": "c1c8778744f576f31ece9280ed9c4fe65d72a02d72f58879dc3dabde2190156a",
+  "episode_lengths": [
+    764,
+    764,
+    764,
+    764,
+    764,
+    764,
+    764,
+    764,
+    764,
+    764
+  ],
+  "action_percentages": {
+    "NOOP": 0.0,
+    "FIRE": 0.0,
+    "RIGHT": 0.0,
+    "LEFT": 100.0,
+    "RIGHTFIRE": 0.0,
+    "LEFTFIRE": 0.0
+  },
+  "evaluated_training_steps": 850000,
+  "training_finished": false,
+  "device": "cpu",
+  "versions": {
+    "torch": "2.15.0",
+    "gymnasium": "1.4.0",
+    "ale-py": "0.12.1",
+    "numpy": "2.5.4",
+    "opencv-python-headless": "4.14.0.94"
+  },
+  "training_steps": 850000,
+  "training_method": "step_based",
+  "training_episodes": null
+}
