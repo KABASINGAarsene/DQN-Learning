@@ -1,0 +1,18 @@
+### Hyperparameter Experiment Results
+
+**Member Name:** Carla BATONI
+**Environment:** ALE/Pong-v5 | 500 episodes per experiment | Replay buffer: 10,000 | Target network update: every 10 episodes
+
+| Experiment | Learning rate | Gamma | Batch size | Epsilon start | Epsilon end | Epsilon decay | Observed behaviour |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1 (Baseline)** | 0.0001 | 0.99 | 32 | 1.0 | 0.05 | 0.995 | **Failure to Learn:** Avg reward (last 10): -20.9. Training was stable but flat, with reward staying between -20 and -21 for all 500 episodes (428,823 steps). The agent performed no better than random within this training budget. |
+| **2** | **0.00025** | 0.99 | 32 | 1.0 | 0.05 | 0.995 | **No Effect From Learning Rate:** Avg reward (last 10): -20.7. Raising the learning rate gave nearly the same result as Exp 1 (-20.9), with no upward trend. Changing the learning rate alone did not help at batch 32. |
+| **3** | 0.00025 | **0.95** | 32 | 1.0 | 0.05 | 0.995 | **Short-Sighted Agent, No Learning:** Avg reward (last 10): -20.9. Valuing future rewards less made no visible difference compared with Exp 2 (-20.7). Reward stayed between -20 and -21 throughout. |
+| **4** | 0.00025 | **0.999** | 32 | 1.0 | 0.05 | 0.995 | **Long-Sighted Agent, No Learning:** Avg reward (last 10): -20.5. A few isolated spikes appeared (best -16 at episode 102, while epsilon was still high), but none lasted. The first 100 episodes averaged -20.6 and the last 100 averaged -20.7, so there was no real improvement. |
+| **5** | 0.00025 | 0.99 | **64** | 1.0 | 0.05 | 0.995 | **First Learning Signal:** Avg reward (last 10): -17.1. Doubling the batch size gave the first run that learned. Reward stayed near -20 for about 100 episodes, then climbed to roughly -18 and fluctuated between -16 and -19. Episodes grew from about 990 to about 1,500 steps, so the agent was returning the ball more often (700,651 steps in total). |
+| **6** | 0.00025 | 0.99 | **128** | 1.0 | 0.05 | 0.995 | **Best Performance:** Avg reward (last 10): -15.7. Learning was clear and steady, with 100-episode averages rising from -20.1 to about -16 and single episodes reaching -7. Episode length doubled to about 2,000 steps (827,039 steps in total). Progress flattened after about episode 300. |
+| **7** | 0.00025 | 0.99 | 64 | 1.0 | 0.05 | **0.99** | **Early Exploitation Stalled:** Avg reward (last 10): -20.8. With the faster decay, epsilon reached its 0.05 floor around episode 300, but the agent never improved. Episode length stayed near 830 steps, unlike Exp 5. |
+| **8** | 0.00025 | 0.99 | 64 | 1.0 | 0.05 | **0.998** | **Over-Exploration Slows Learning:** Avg reward (last 10): -18.7. Reward stayed near -20 for 200 episodes, then rose slowly. Epsilon was still about 0.37 at episode 500, so much of the run was random play. Slightly worse than Exp 5 (-17.1), which used decay 0.995. |
+| **9** | 0.00025 | 0.99 | 64 | **0.8** | **0.01** | 0.99 | **Lower Exploration Range Helped:** Avg reward (last 10): -18.4. Gradual, noisy improvement, with episodes growing from about 930 to about 1,500 steps. At the same decay as Exp 7, starting at 0.8 and ending at 0.01 learned where Exp 7 (-20.8) did not. It was still a little worse than Exp 5 (-17.1). |
+| **10** | 0.00025 | 0.99 | **16** | 1.0 | 0.05 | 0.995 | **Small Batch Stalled:** Avg reward (last 10): -21.0. The smallest batch did not learn. Reward stayed at -21 in most episodes (151 of 500 scored above -21, best -18 at episode 24), and the 100-episode averages drifted from -20.4 to -20.8. Episode length fell from about 940 to about 820 steps (429,189 in total), so the agent was not returning the ball more often. Consistent with the batch-size trend: 16 and 32 flat, 64 learned, 128 best. |
+
