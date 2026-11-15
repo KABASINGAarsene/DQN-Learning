@@ -21,13 +21,13 @@ import torch
 import gymnasium as gym
 import ale_py
 
-# Register ALE environments so Gymnasium recognizes 'ALE/Pong-v5'
+# Registering ALE environments so Gymnasium recognizes 'ALE/Pong-v5'
 gym.register_envs(ale_py)
 
-# Import the identical QNetwork class and hyperparameters from train.py
+# Importing the identical QNetwork class and hyperparameters from train.py
 # to guarantee architectural consistency.
 from train import QNetwork, DEVICE, FRAME_STACK, ENV_NAME, SAVE_PATH
-
+SAVE_PATH = "Arsene/models/dqn_model_exp5.pth"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 1 — EVALUATION ENVIRONMENT (WITH LIVE RENDERING)
@@ -49,13 +49,13 @@ def make_eval_env():
     # render_mode="human" pops open a live display window showing the game
     env = gym.make(ENV_NAME, render_mode="human")
 
-    # Resize to 84x84
+    # Resizing to 84x84
     env = gym.wrappers.ResizeObservation(env, shape=(84, 84))
 
-    # Convert RGB to single-channel greyscale
+    # Converting RGB to single-channel greyscale
     env = gym.wrappers.GrayscaleObservation(env, keep_dim=False)
 
-    # Stack the last 4 frames so the agent can perceive ball velocity
+    # Stacking the last 4 frames so the agent can perceive ball velocity
     env = gym.wrappers.FrameStackObservation(env, stack_size=FRAME_STACK)
 
     return env
@@ -78,15 +78,15 @@ def select_greedy_action(state, model):
     Returns: int — best action index
     """
     with torch.no_grad():
-        # Convert state to tensor: (4, 84, 84) -> (1, 4, 84, 84), normalized to [0, 1]
+        # Converting state to tensor: (4, 84, 84) -> (1, 4, 84, 84), normalized to [0, 1]
         state_tensor = torch.tensor(
             np.array(state), dtype=torch.float32
         ).unsqueeze(0).to(DEVICE) / 255.0
 
-        # Predict Q-values for all possible actions
+        # Predicting Q-values for all possible actions
         q_values = model(state_tensor)
 
-        # Pick the action with the maximum Q-value
+        # Picking the action with the maximum Q-value
         best_action = q_values.argmax(dim=1).item()
 
     return best_action
@@ -97,32 +97,32 @@ def select_greedy_action(state, model):
 # ─────────────────────────────────────────────────────────────────────────────
 
 def main():
-    # ── Verify trained weights exist ──────────────────────────────────────────
+    # ── Verifying trained weights exist ──────────────────────────────────────────
     if not os.path.exists(SAVE_PATH):
         print(f"Error: Trained model file '{SAVE_PATH}' not found!")
         print("Please run train.py first to produce 'dqn_model.pth'.")
         return
 
-    # ── Create the rendering environment ──────────────────────────────────────
+    # ── Creating the rendering environment ──────────────────────────────────────
     print(f"Initializing live environment: {ENV_NAME} ...")
     env = make_eval_env()
     num_actions = env.action_space.n
 
-    # ── Reconstruct Q-Network architecture & load weights ─────────────────────
+    # ── Reconstructing Q-Network architecture & load weights ─────────────────────
     print(f"Loading model weights from '{SAVE_PATH}' onto {DEVICE}...")
     model = QNetwork(num_actions=num_actions).to(DEVICE)
 
-    # Load the learned parameter weights into the architecture
+    # Loading the learned parameter weights into the architecture
     checkpoint = torch.load(SAVE_PATH, map_location=DEVICE)
     model.load_state_dict(checkpoint)
 
-    # Set to EVALUATION mode.
+    # Setting to EVALUATION mode.
     # This disables training-specific behaviors (e.g., dropout if present)
     # and ensures weights are treated as frozen.
     model.eval()
     print("Model loaded successfully in eval() mode.\n")
 
-    # ── Play evaluation games ─────────────────────────────────────────────────
+    # ── Playing evaluation games ─────────────────────────────────────────────────
     TOTAL_GAMES = 3     # Number of full Pong matches to play live
 
     for game in range(1, TOTAL_GAMES + 1):
@@ -136,10 +136,10 @@ def main():
         print(f"--- Starting Match {game}/{TOTAL_GAMES} ---")
 
         while not done:
-            # Pick the greedy best action (no random exploration)
+            # Picking the greedy best action (no random exploration)
             action = select_greedy_action(state, model)
 
-            # Step the environment forward
+            # Stepping the environment forward
             next_obs, reward, terminated, truncated, _ = env.step(action)
             next_state = np.array(next_obs)
 
@@ -153,7 +153,7 @@ def main():
 
         print(f"Match {game} finished! Final Score: {total_score:+.0f} after {step_count} steps\n")
 
-    # Clean up window
+    # Cleaning up window
     env.close()
     print("Evaluation completed.")
 
